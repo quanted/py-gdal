@@ -1,3 +1,5 @@
+FROM python:3
+
 ENV GDAL_VERSION=2.2.1
 
 # Install GDAL
@@ -21,3 +23,9 @@ RUN cd /tmp/gdal-${GDAL_VERSION} && \
     make -j $(nproc) && make install
 
 RUN rm /tmp/gdal-${GDAL_VERSION} -rf
+
+#Add requirements file before install requirements
+COPY requirements.txt ./requirements.txt
+
+#Install requirements, including nose2
+RUN pip install -r requirements.txt
