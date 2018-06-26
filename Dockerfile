@@ -8,8 +8,8 @@ RUN wget http://download.osgeo.org/gdal/$GDAL_VERSION/gdal-${GDAL_VERSION}.tar.g
     && cd /tmp/gdal-${GDAL_VERSION} \
     && ./configure \
         --prefix=/usr \
-        --with-python \
-        --with-geos \
+#        --with-python \
+#        --with-geos \
 #        --with-sfcgal \
 #        --with-geotiff \
 #        --with-jpeg \
