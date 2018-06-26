@@ -10,14 +10,14 @@ RUN wget http://download.osgeo.org/gdal/$GDAL_VERSION/gdal-${GDAL_VERSION}.tar.g
         --prefix=/usr \
         --with-python \
         --with-geos \
-        --with-sfcgal \
-        --with-geotiff \
-        --with-jpeg \
-        --with-png \
+#        --with-sfcgal \
+#        --with-geotiff \
+#        --with-jpeg \
+#        --with-png \
         --with-expat \
-        --with-libkml \
-        --with-openjpeg \
-        --with-pg \
+#        --with-libkml \
+#        --with-openjpeg \
+#        --with-pg \
         --with-curl \
         --with-spatialite \
     && make -j $(nproc) \
