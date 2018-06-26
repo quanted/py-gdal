@@ -20,6 +20,6 @@ RUN wget http://download.osgeo.org/gdal/$GDAL_VERSION/gdal-${GDAL_VERSION}.tar.g
 #        --with-pg \
         --with-curl \
         --with-spatialite \
-    && make -j $(nproc) \
+    && make -j $(nproc)
 #    && make install \
 #    && rm /tmp/gdal-${GDAL_VERSION} -rf
