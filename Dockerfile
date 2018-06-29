@@ -1,6 +1,6 @@
 FROM python:3
 
-ENV GDAL_VERSION=2.2.1
+ENV GDAL_VERSION=2.2.4
 
 # Install GDAL
 RUN wget http://download.osgeo.org/gdal/$GDAL_VERSION/gdal-${GDAL_VERSION}.tar.gz -O /tmp/gdal-${GDAL_VERSION}.tar.gz \
