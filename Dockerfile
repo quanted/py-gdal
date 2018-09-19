@@ -12,13 +12,13 @@ RUN wget http://download.osgeo.org/gdal/$GDAL_VERSION/gdal-${GDAL_VERSION}.tar.g
         --with-geos \
         --with-sfcgal \
         --with-geotiff \
-        --with-jpeg \
-        --with-png \
+#        --with-jpeg \
+#        --with-png \
         --with-expat \
         --with-libkml \
-        --with-openjpeg \
+#        --with-openjpeg \
         --with-pg \
-        --with-curl \
+#        --with-curl \
         --with-spatialite \
     && make -j $(nproc)
 #    && make install \
