@@ -1,10 +1,9 @@
-FROM python:3
+FROM dbsmith88/py-proj4:6.2.1
 
-ENV GDAL_VERSION=2.3.1
+ENV GDAL_VERSION=3.0.2
 
 # Update base container install
-RUN apt-get update
-RUN apt-get upgrade -y
+RUN apt-get update && apt-get upgrade -y
 
 # Add unstable repo to allow us to access latest GDAL builds
 RUN echo deb http://ftp.uk.debian.org/debian unstable main contrib non-free >> /etc/apt/sources.list
@@ -14,34 +13,22 @@ RUN apt-get update
 RUN apt-get remove -y binutils
 
 # Install GDAL dependencies
-RUN apt-get -t unstable install -y libgdal-dev g++
+RUN apt-get -t unstable install -y python3-numpy python3-gdal python3-pip libgdal-dev libgeos-dev libproj-dev gdal-bin g++
 
 # Update C env vars so compiler can find gdal
 ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal
 
-# This will install latest version of GDAL
-RUN pip install GDAL==${GDAL_VERSION}
+# Install Geos
+ARG GEOS_VERSION=3.8.0
+RUN wget http://download.osgeo.org/geos/geos-${GEOS_VERSION}.tar.bz2 -O /tmp/geos-${GEOS_VERSION}.tar.bz2 \
+    && tar -xf /tmp/geos-${GEOS_VERSION}.tar.bz2 -C /tmp \
+    && cd /tmp/geos-${GEOS_VERSION} \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -rf /tmp/geos-${GEOS_VERSION}
 
-## Install GDAL
-#RUN wget http://download.osgeo.org/gdal/$GDAL_VERSION/gdal-${GDAL_VERSION}.tar.gz -O /tmp/gdal-${GDAL_VERSION}.tar.gz -nv \
-#    && tar -x -f /tmp/gdal-${GDAL_VERSION}.tar.gz -C /tmp \
-#    && cd /tmp/gdal-${GDAL_VERSION} \
-#    && ./configure \
-#        --prefix=/usr \
-#        --with-python \
-#        --with-geos \
-#        --with-sfcgal \
-#        --with-geotiff \
-#        --with-jpeg \
-#        --with-png \
-#        --with-expat \
-#        --with-libkml \
-#        --with-openjpeg \
-#        --with-pg \
-#        --with-curl \
-#        --with-spatialite \
-#    && make -j
-##    && make -j $(nproc)
-##    && make install \
-##    && rm /tmp/gdal-${GDAL_VERSION} -rf
+# This will install latest version of GDAL
+RUN pip3 install -U numpy
+RUN pip3 install GDAL==${GDAL_VERSION}
