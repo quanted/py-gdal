@@ -1,34 +1,22 @@
-FROM dbsmith88/py-proj4:6.2.1
+FROM python:3.7
 
-ENV GDAL_VERSION=3.0.2
+RUN apt update -y && apt install -y --fix-missing --no-install-recommends \
+    python3-pip software-properties-common build-essential ca-certificates \
+    git make cmake wget unzip libtool automake curl autoconf \
+    zlib1g-dev libsqlite3-dev pkg-config sqlite3 gcc g++ gfortran \
+    python-dev
 
-# Update base container install
-RUN apt-get update && apt-get upgrade -y
+RUN cd /tmp && curl -O https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh && \
+    bash Anaconda3-2019.10-Linux-x86_64.sh -b && \
+    rm Anaconda3-2019.10-Linux-x86_64.sh
+ENV PATH /root/anaconda3/bin:$PATH
 
-# Add unstable repo to allow us to access latest GDAL builds
-RUN echo deb http://ftp.uk.debian.org/debian unstable main contrib non-free >> /etc/apt/sources.list
-RUN apt-get update
+# Updating Anaconda packages
+RUN conda install -c conda-forge gdal -y && \
+    conda install -c conda-forge fiona -y && \
+    conda install -c conda-forge geos -y && \
+    conda install -c conda-forge pyproj -y
+RUN conda install -c conda-forge uwsgi -y
 
-# Existing binutils causes a dependency conflict, correct version will be installed when GDAL gets intalled
-RUN apt-get remove -y binutils
-
-# Install GDAL dependencies
-RUN apt-get -t unstable install -y python3-numpy python3-gdal python3-pip libgdal-dev libgeos-dev libproj-dev gdal-bin g++
-
-# Update C env vars so compiler can find gdal
-ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
-ENV C_INCLUDE_PATH=/usr/include/gdal
-
-# Install Geos
-ARG GEOS_VERSION=3.8.0
-RUN wget http://download.osgeo.org/geos/geos-${GEOS_VERSION}.tar.bz2 -O /tmp/geos-${GEOS_VERSION}.tar.bz2 \
-    && tar -xf /tmp/geos-${GEOS_VERSION}.tar.bz2 -C /tmp \
-    && cd /tmp/geos-${GEOS_VERSION} \
-    && ./configure \
-    && make \
-    && make install \
-    && rm -rf /tmp/geos-${GEOS_VERSION}
-
-# This will install latest version of GDAL
-RUN pip3 install -U numpy
-RUN pip3 install GDAL==${GDAL_VERSION}
+# Output version and capabilities by default.
+CMD gdalinfo --version && gdalinfo --formats && ogrinfo --formats
