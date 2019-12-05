@@ -11,8 +11,11 @@ RUN cd /tmp && curl -O https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux
     rm Anaconda3-2019.10-Linux-x86_64.sh
 ENV PATH /root/anaconda3/bin:$PATH
 
+# gdal vesion restriction due to fiona not supporting gdal>2.4.3
+ARG GDAL_VERSION=2.4.3
+
 # Updating Anaconda packages
-RUN conda install -c conda-forge gdal -y && \
+RUN conda install -c conda-forge gdal==$GDAL_VERSION -y && \
     conda install -c conda-forge fiona -y && \
     conda install -c conda-forge geos -y && \
     conda install -c conda-forge pyproj -y
