@@ -10,7 +10,7 @@ RUN cd /tmp && curl -O https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux
 ENV PATH /root/anaconda3/bin:$PATH
 
 # gdal vesion restriction due to fiona not supporting gdal>2.4.3
-ARG GDAL_VERSION=3.1.4
+ARG GDAL_VERSION=3.0.4
 
 RUN activate base
 RUN conda update conda -y && \
