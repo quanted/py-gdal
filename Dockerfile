@@ -16,7 +16,7 @@ RUN apt update -y && apt install -y --fix-missing --no-install-recommends \
 # gdal vesion restriction due to fiona not supporting gdal>2.4.3
 ARG GDAL_VERSION=3.1.4
 
-RUN conda create --name pyenv python=3.8
+RUN conda create --name pyenv python=3.8.10
 RUN activate pyenv
 RUN conda update conda -y
 RUN conda info
