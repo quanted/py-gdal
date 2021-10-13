@@ -1,9 +1,16 @@
-FROM continuumio/miniconda3:4.9.2
+FROM continuumio/miniconda3:4.10.3
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH /opt/conda/bin:$PATH
 
-RUN apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
+#RUN apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
+#    libglib2.0-0 libxext6 libsm6 libxrender1 \
+#    python3-pip software-properties-common build-essential \
+#    make sqlite3 gfortran python-dev \
+#    git mercurial subversion
+
+RUN apt-get update --fix-missing -y \
+    apt-get install -y wget bzip2 ca-certificates \
     libglib2.0-0 libxext6 libsm6 libxrender1 \
     python3-pip software-properties-common build-essential \
     make sqlite3 gfortran python-dev \
