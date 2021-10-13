@@ -9,8 +9,8 @@ ENV PATH /opt/conda/bin:$PATH
 #    make sqlite3 gfortran python-dev \
 #    git mercurial subversion
 
-RUN apt-get update --fix-missing -y \
-    apt-get install -y wget bzip2 ca-certificates \
+RUN apt-get update --fix-missing -y
+RUN apt-get install -y wget bzip2 ca-certificates \
     libglib2.0-0 libxext6 libsm6 libxrender1 \
     python3-pip software-properties-common build-essential \
     make sqlite3 gfortran python-dev \
